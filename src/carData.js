@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const csv = require('fast-csv');
-const DB = require('../db/db.js')
+const DB = require('../lib/db.js')
 
 class CarData {
     static async addData(providerName, fileName) {
@@ -14,13 +14,12 @@ class CarData {
         }
     }
 
-    static _parseFile(filePath, fileName) {
+    static async _parseFile(filePath, fileName) {
         fs.createReadStream(path.resolve(filePath, fileName))
             .pipe(csv.parse({ headers: true }))
             .on('error', error => console.error(error))
-            .on('data', row => {
-                console.log("row: ", row)
-                DB.addData(row)
+            .on('data', async row => {
+                await DB.addData(row)
             })
             .on('end', rowCount => console.log(`Parsed ${rowCount} rows`))
     }

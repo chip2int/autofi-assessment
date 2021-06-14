@@ -6,8 +6,8 @@ const morgan = require('morgan');
 const _ = require('lodash');
 
 const app = express()
-const CarData = require('./lib/carData.js')
-const DB = require('./db/db.js')
+const CarData = require('./src/carData.js')
+const DB = require('./lib/db.js')
 
 app.use(fileUpload({
     createParentPath: true
